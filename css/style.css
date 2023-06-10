@@ -56,7 +56,9 @@ img.img-logo {
 .column.is-3 {
     margin: auto;
 }
-
+.footer_social{
+    font-size:0.5em;
+}
 /* https://pytorch.org/assets/brand-guidelines/PyTorch-Brand-Guidelines.pdf */
 .details a:hover, .right-panel a:hover { color: rgb(238, 76, 44); }
 a:active { color: rgb(238, 76, 44) }
