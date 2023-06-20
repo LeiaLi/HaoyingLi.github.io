@@ -45,7 +45,7 @@
             <div class="wrapper-main-download">
                 <div class="main-download">
                     <figure>
-                        <img src="./img_source/images/ntu.png" alt=""width="600">
+                        <img src="./img_source/images/ntu.png" alt="">
                     <figure>
                         <img src="./img_source/images/zju.png" alt="" width="50">
                         <!-- <div class="download-btn">
@@ -85,9 +85,18 @@
                         <img class="wow animate__animated animate__fadeInLeft" src="./img_source/images/LMD.png" alt="">
                         </figure>
 
-                        <p> We propose LMD-ViT, a Transformer-based local motion deblurring method with an adaptive window pruning mechanism. We prune unnecessary windows based on the predicted blurriness confidence supervised by our blur region annotation. In this process, the feature maps are pruned at varying levels of granularity within blocks of different resolutions (as depicted in the 3rd～5th visualizations in Row 1). Unlike global deblurring methods 
-                            that modify global regions (i.e. Uformer), LMD-ViT performs dense computing only on the active windows of blurry regions. Consequently, local blurs are efficiently removed without distorting sharp regions, as shown in Row 2.</p>
-                    </article>
+                        <!-- <p> We propose LMD-ViT, a Transformer-based local motion deblurring method with an adaptive window pruning mechanism. We prune unnecessary windows based on the predicted blurriness confidence supervised by our blur region annotation. In this process, the feature maps are pruned at varying levels of granularity within blocks of different resolutions (as depicted in the 3rd～5th visualizations in Row 1). Unlike global deblurring methods 
+                            that modify global regions (i.e. Uformer), LMD-ViT performs dense computing only on the active windows of blurry regions. Consequently, local blurs are efficiently removed without distorting sharp regions, as shown in Row 2.</p> -->
+                        <p>Local motion blur commonly occurs in real-world photography due to the
+                            mixing between moving objects and stationary backgrounds during exposure. 
+                            Existing image deblurring methods predominantly focus on global deblurring, inadvertently affecting the sharpness of backgrounds in locally blurred images and wasting unnecessary computation on sharp pixels, especially for high-resolution images.
+                            This paper aims to adaptively and efficiently restore high-resolution locally blurred images.
+                            We propose a local motion deblurring vision Transformer (LMD-ViT) built on adaptive window pruning Transformer blocks (AdaWPT). 
+                            To focus deblurring on local regions and reduce computation, AdaWPT prunes unnecessary windows, only allowing the active windows to be involved in the deblurring processes. The pruning operation relies on the blurriness confidence predicted by a confidence predictor that is trained end-to-end using a reconstruction loss with Gumbel-Softmax re-parameterization and a pruning loss guided by 
+                            annotated blur masks.
+                            Our method removes local motion blur effectively without distorting sharp regions, demonstrated by its exceptional perceptual and quantitative improvements (+0.24dB) compared to state-of-the-art methods. 
+                            In addition, our approach substantially reduces FLOPs by 66\% and achieves more than a twofold increase in inference speed compared to Transformer-based deblurring methods.</p>
+                        </article>
                     <!-- <figure class="article-image"></figure> -->
                 </div>
                 <div class="article">
@@ -96,14 +105,19 @@
                     </div>
                     <article>
                         <p>
-                        We reformulate Adaptive Computation Time (Graves'17) for this task, extending halting to discard redundant spatial tokens. The appealing architectural properties of vision transformers enables our adaptive token reduction mechanism to speed up inference without modifying the network architecture or inference hardware. We demonstrate that A-ViT requires no extra parameters or sub-network for halting, as we base the learning of adaptive halting on the original network parameters. We further introduce distributional prior regularization that stabilizes training compared to prior ACT approaches. On the image classification task (ImageNet1K), we show that our proposed A-ViT yields high efficacy in filtering informative spatial features and cutting down on the overall compute. The proposed method improves the throughput of DeiT-Tiny by 62% and DeiT-Small by 38% with only 0.3% accuracy drop, outperforming prior art by a large margin.
+                            
                         </p>
                     </article>
-
                     <figure class="article-image">
-                        <img class="wow animate__animated animate__fadeInRight" src="./img_source/fig/dynamic_fig.png" alt="">
+                        <img class="wow animate__animated animate__fadeInLeft" src="./img_source/images/network.png" alt="">
                         <figcaption>
-                            Original image (left) and the dynamic token depth (right) of A-ViT-Tiny on the ImageNet-1K validation set. Distribution of token computation highly aligns with visual features. Tokens associated with informative regions are adaptively processed deeper, robust to repeating objects with complex backgrounds. Best viewed in color.
+                            The architecture of LMD-ViT. LMD-ViT is built on a U-shape encoder-decoder structure with AdaWPT blocks. Each AdaWPT block can be further divided into an AdaWPT-F block and several AdaWPT-P blocks. The images with masks below each block depict visualizations of the window pruning effect. The masks indicate the unpruned windows on locally blurred patches and exhibit different levels of pruning granularity.
+                        </figcaption>
+                    </figure>
+                    <figure class="article-image">
+                        <img class="wow animate__animated animate__fadeInRight" src="./img_source/images/AdaWPT.png" alt="">
+                        <figcaption>
+                            Structure of AdaWPT in training and inference phase. There are two kinds of AdaWPT: AdaWPT-F and AdaWPT-P. AdaWPT-F predicts the confidence of blurriness (``C'') and pruning decisions (``D''), and AdaWPT-P follows the pruning decisions. Both AdaWPT-F and AdaWPT-P prune windows in Transformer layers. ``X'' denotes the feature map.
                         </figcaption>
                     </figure>
 
