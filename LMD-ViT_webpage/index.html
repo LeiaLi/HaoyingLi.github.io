@@ -80,20 +80,20 @@
                         <figure class="article-image">
                         <!-- <img class="wow animate__animated animate__fadeInLeft" src="./images/client_server.png" alt=""> -->
                         <!-- <figcaption>*Equal contribution.**Equal advising.</figcaption> -->
-                        <img class="wow animate__animated animate__fadeInLeft" src="./img_source/images/LMD.png" alt="">
+                        <img class="wow animate__animated animate__fadeInLeft" src="./img_source/images/motivation.png" alt="">
                         </figure>
 
                         <!-- <p> We propose LMD-ViT, a Transformer-based local motion deblurring method with an adaptive window pruning mechanism. We prune unnecessary windows based on the predicted blurriness confidence supervised by our blur region annotation. In this process, the feature maps are pruned at varying levels of granularity within blocks of different resolutions (as depicted in the 3rd～5th visualizations in Row 1). Unlike global deblurring methods 
                             that modify global regions (i.e. Uformer), LMD-ViT performs dense computing only on the active windows of blurry regions. Consequently, local blurs are efficiently removed without distorting sharp regions, as shown in Row 2.</p> -->
-                        <p>Local motion blur commonly occurs in real-world photography due to the
-                            mixing between moving objects and stationary backgrounds during exposure. 
-                            Existing image deblurring methods predominantly focus on global deblurring, inadvertently affecting the sharpness of backgrounds in locally blurred images and wasting unnecessary computation on sharp pixels, especially for high-resolution images.
-                            This paper aims to adaptively and efficiently restore high-resolution locally blurred images.
-                            We propose a local motion deblurring vision Transformer (LMD-ViT) built on adaptive window pruning Transformer blocks (AdaWPT). 
-                            To focus deblurring on local regions and reduce computation, AdaWPT prunes unnecessary windows, only allowing the active windows to be involved in the deblurring processes. The pruning operation relies on the blurriness confidence predicted by a confidence predictor that is trained end-to-end using a reconstruction loss with Gumbel-Softmax re-parameterization and a pruning loss guided by 
-                            annotated blur masks.
-                            Our method removes local motion blur effectively without distorting sharp regions, demonstrated by its exceptional perceptual and quantitative improvements (+0.24dB) compared to state-of-the-art methods. 
-                            In addition, our approach substantially reduces FLOPs by 66\% and achieves more than a twofold increase in inference speed compared to Transformer-based deblurring methods.</p>
+                        <p> We introduce LMD-ViT, a Transformer-based local motion deblurring method with an
+                            adaptive window pruning mechanism. We prune unnecessary windows based on the predicted 
+                            blurriness confidence supervised by our blur region annotation. In this process, the 
+                            feature maps are pruned at varying levels of granularity within blocks of different 
+                            resolutions. The white masks in AdaWPT 5 to 8 denote tokens to be preserved, and regions 
+                            without white masks are pruned. The grids denote window borders. Unlike global deblurring 
+                            methods that modify global regions, LMD-ViT performs dense computing only on the active 
+                            windows of blurry regions. Consequently, local blurs are efficiently removed without 
+                            distorting sharp regions.</p>
                         </article>
                     <!-- <figure class="article-image"></figure> -->
                 </div>
@@ -102,28 +102,49 @@
                         <span>Key Approach</span>
                     </div>
                     <article>
-                        <p>
-                            We introduce LMD-ViT, a Transformer-based local motion deblurring method with an
-                            adaptive window pruning mechanism. We prune unnecessary windows based on the predicted
-                            blurriness confidence supervised by our blur region annotation. In this process, the feature maps
-                            are pruned at varying levels of granularity within blocks of different resolutions. Unlike global deblurring methods that modify global regions, 
-                            LMD-ViT performs dense computing only on the active windows of blurry regions. Consequently,
-                            local blurs are efficiently removed without distorting sharp regions.
-                        </p>
+                        <p>Local motion blur commonly occurs in real-world photography due to the mixing 
+                            between moving objects and stationary backgrounds during exposure. Existing 
+                            image deblurring methods predominantly focus on global deblurring, inadvertently
+                            affecting the sharpness of backgrounds in locally blurred images and wasting 
+                            unnecessary computation on sharp pixels, especially for high-resolution images. 
+                            This paper aims to adaptively and efficiently restore high-resolution locally
+                            blurred images. We propose a local motion deblurring vision Transformer (LMD-ViT)
+                            built on adaptive window pruning Transformer blocks (AdaWPT). To focus deblurring 
+                            on local regions and reduce computation, AdaWPT prunes unnecessary windows, 
+                            only allowing the active windows to be involved in the deblurring processes. 
+                            The pruning operation relies on the blurriness confidence predicted by a confidence 
+                            predictor that is trained end-to-end using a reconstruction loss with Gumbel-Softmax 
+                            re-parameterization and a pruning loss guided by annotated blur masks. Our method 
+                            removes local motion blur effectively without distorting sharp regions, demonstrated 
+                            by its exceptional perceptual and quantitative improvements compared to 
+                            state-of-the-art methods. In addition, our approach substantially reduces FLOPs by 
+                            66% and achieves more than a twofold increase in inference speed compared to 
+                            Transformer-based deblurring methods.</p>
                     </article>
                     <figure class="article-image">
                         <img class="wow animate__animated animate__fadeInLeft" src="./img_source/images/network.png" alt="">
                         <figcaption>
-                            <b>Architecture of LMD-ViT.</b> LMD-ViT is built on a U-shape encoder-decoder structure with AdaWPT blocks. Each AdaWPT block can be further divided into an AdaWPT-F block and several AdaWPT-P blocks. The images with masks below each block depict visualizations of the window pruning effect. The masks indicate the unpruned windows on locally blurred patches and exhibit different levels of pruning granularity.
+                            <b>Architecture of LMD-ViT.</b> The proposed local motion deblurring vision Transformer 
+                            (LMD-ViT) is a U-shaped network with an encoder stage, a bottleneck stage, and a decoder 
+                            stage with skip connections. An in-projection/out-projection layer is placed at the 
+                            beginning/end of the network to extract RGB images to feature maps or convert feature maps 
+                            to RGB images. The encoder, bottleneck, and decoder include a series of adaptive 
+                            window-token pruning Transformer blocks (AdaWPT) and down-sampling/up-sampling layers. 
+                            As a key component, AdaWPT removes local blurs by a window pruning strategy with a confidence 
+                            predictor, a decision layer, and several Transformer layers. It is trained with a reconstruction 
+                            loss and a pruning loss constrained by our carefully annotated blur masks. AdaWPT can be 
+                            applied in any encoder/decoder/bottom-neck block and is flexible to prune at different resolutions.  
+                            In our proposed LMD-ViT, windows are pruned coarsely in low-resolution blocks and finely in 
+                            high-resolution blocks. This strikes a balance between computational complexity and accuracy.
                         </figcaption>
                     <br>
                     </figure>
-                    <figure class="article-image">
+                    <!-- <figure class="article-image">
                         <img class="wow animate__animated animate__fadeInRight" src="./img_source/images/AdaWPT.png" alt="">
                         <figcaption>
                             <b>Structure of AdaWPT in training and inference phase.</b> There are two kinds of AdaWPT: AdaWPT-F and AdaWPT-P. AdaWPT-F predicts the confidence of blurriness (``C'') and pruning decisions (``D''), and AdaWPT-P follows the pruning decisions. Both AdaWPT-F and AdaWPT-P prune windows in Transformer layers. ``X'' denotes the feature map.
                         </figcaption>
-                    </figure>
+                    </figure> -->
 
                     </figure>
                 </div>
@@ -175,31 +196,65 @@
                 </div>
             </div>
 
-            
+            <section class='section links-section'>
+                <div class='section-title'>
+                </div>
+                <div class='details links-table'>
+                    <table>
+                        <tr>
+                            <td>
+                                <div class='links-container'>
+                                    <a href='https://arxiv.org/abs/2306.14268' target="_blank"><img class='links-cover'src='./img_source/images/paper_cover.png' alt='PDF Cover' width="100"></a>
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div class='links-container'>
+                                    <a href='https://github.com/LeiaLi/LMD-ViT' target="_blank"><img class='links-cover'
+                                            src='./img_source/images/github.png' alt='github icon' width="100"></a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class='links-container'>
+                                    <a href='https://drive.google.com/file/d/1PPXWxn7gYvqwHX301SuWmjI7IUUtqxab/view?usp=sharing' target="_blank"><img class='links-cover'
+                                            src='./img_source/images/Google_Drive.png' alt='drive icon' width="100"></a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td><a href='https://arxiv.org/abs/2306.14268' target="_blank">Paper</a></td>
+                            <td><a href='https://github.com/LeiaLi/LMD-ViT' target="_blank">Code</a></td>
+                            <td><a href='https://drive.google.com/drive/folders/1cBhtfm7vzsyAr9D6V_LwWJma845rUSlg?usp=sharing' target="_blank">Dataset</a></td>
+                            
+                        </tr>
+                        
+                    </table>
+                </div> 
             
             <br>
             <section>
                 <br>
                 <p>We referred to the project page of <a href="https://a-vit.github.io/">A-ViT</a> when creating this
                     project page.</p>
-            </section>
-            <!-- <div class="paper">
+            <!-- </section>
+            <div class="paper">
             <div id="paper" class="wrapper-extra-links">
                 <div class="extra-link">
                     <div class="paper-pic">
                         <span class="paper-title">Paper</span>
                         <figure>
-                            <a target="_blank" href="https://arxiv.org/abs/2112.07658"><img src="./img_source/fig/paper_cover.png" alt=""></a>
+                            <a target="_blank" href="https://arxiv.org/abs/2306.14268"><img src="./img_source/image/paper_cover.png" alt=""></a>
                         </figure>
                     </div>
                     <div class="description">
                         <p>
-                            A-ViT: Adaptive Tokens for Efficient Vision Transformer, CVPR 2022.
+                            Adaptive Window Pruning for Efficient Local Motion Deblurring.
                         </p>
-                        <a target="_blank" href="https://arxiv.org/abs/2112.07658">paper</a>
+                        <a target="_blank" href="https://arxiv.org/abs/2306.14268">paper</a>
                     </div>
-                </div>
-            </div> -->
+                </div> -->
+            <!-- </div> -->
 
            <!-- </div>
 
